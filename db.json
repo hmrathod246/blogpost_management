@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "id": "4b4b",
+      "title": "Title 1",
+      "description": "lorem ipsum is simply dummy text of the project",
+      "author": "HM Rathod",
+      "image": "https://avatars.mds.yandex.net/i?id=a84a849d885a6a638724ee45adb74cf09eb91ec5-5848407-images-thumbs&n=13",
+        "createdAt": "2026-02-06T11:04:10.992Z"
+    },
+     {
+      "id": "4bc",
+      "title": "Title 2",
+      "description": "the rose is very beautiful",
+      "author": "HM Rathod",
+      "image": "https://avatars.mds.yandex.net/i?id=0523eb0c1f57ff27f9a0ac752c7ded9d00042c10-10636981-images-thumbs&n=13",
+      "createdAt": "2026-02-06T11:04:10.992Z"
+    }
+  ]
+}

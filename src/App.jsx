@@ -1,56 +1,70 @@
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/register";
-import Dashboard from "./component/Dashboard";
+
 import { ToastContainer } from "react-toastify";
-const DefultRouter=()=>{
-    const data=JSON.parse(localStorage.getItem("blog_rdata"))
-    if(data){
-      <Navigate to="/login" replace/>
-    }
-    else{
-      <Navigate to="/register" replace/>
-    }
+import Dashboard from "./pages/Dashboard";
+import AuthGuard from "./auth/AuthGuard";
+const DefultRouter = () => {
+  const data = JSON.parse(localStorage.getItem("blog_rdata"));
+  if (data) {
+    return <Navigate to="/dashboard" replace />;
+  } else {
+   return <Navigate to="/login" replace />;
   }
+};
 function App() {
-  
-
-  const route=createBrowserRouter([
+  const route = createBrowserRouter([
     {
-      path:"/",
-      element:<DefultRouter/>
-    },
-     {
-      path:"/register",
-      element:<Register/>
-    },
-     {
-      path:"/login",
-      element:<Login/>
+      path: "/",
+      element: <DefultRouter />,
     },
     {
-      path:"/dashboard",
-      element:<Dashboard/>
-    }
-  ]
-
-  );
-  return(
+      path: "/register",
+      element: (
+        <AuthGuard required={false}>
+          <Register />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/login",
+      element: (
+        <AuthGuard required={false}>
+          <Login />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/dashboard",
+      element: (
+        <AuthGuard required={true}>
+          <Dashboard />
+        </AuthGuard>
+      ),
+    },
+  ]);
+  return (
     <>
-  <RouterProvider router={route}/>
-  <ToastContainer
-  position="top-right"
-  autoClose={1000}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick={false}
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="light"/>
-  </>
-);
+      <RouterProvider router={route} />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  );
 }
 
 export default App;
