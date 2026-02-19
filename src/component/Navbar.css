@@ -77,25 +77,25 @@
   align-items: center;
   gap: 1.5rem;
 }
-.user-name{
-    font-weight: 600;
-    color: #374151;
-    font-size: 0.9rem;
+.user-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
 }
-.logout-btn{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #eda0b4;
-    color: #dc2626;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #eda0b4;
+  color: #dc2626;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
-.logout-btn:hover{
-    background: #eda0b4;
-    transform: translateY(-1px);
+.logout-btn:hover {
+  background: #eda0b4;
+  transform: translateY(-1px);
 }
