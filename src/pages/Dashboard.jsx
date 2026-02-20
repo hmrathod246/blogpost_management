@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaStar } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import "./Dashboard.css";
 import Navbar from "../Component/Navbar";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
-
+  const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
       const fData = await fetch("http://localhost:3000/posts");
       const data = await fData.json();
-      setTasks(data);
+      setTasks(Array.isArray(data) ? data : []);
     } catch (error) {
       console.log(error);
     }
@@ -22,7 +23,25 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData();
+
+    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(savedFavorites);
   }, []);
+
+  const toggleFavorite = (taskId) => {
+    let newFavorites;
+
+    if (favorites.includes(taskId)) {
+      newFavorites = favorites.filter((id) => id !== taskId);
+      toast.info("Removed from favorites");
+    } else {
+      newFavorites = [...favorites, taskId];
+      toast.success("Added to favorites");
+    }
+
+    setFavorites(newFavorites);
+    localStorage.setItem("favorites", JSON.stringify(newFavorites));
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -53,7 +72,7 @@ const Dashboard = () => {
           <div className="welcome-text">
             <h1>Welcome to your Dashboard</h1>
             <p>
-              Manage your posts,track engagement, and connect with your
+              Manage your posts, track engagement, and connect with your
               audience.
             </p>
           </div>
@@ -62,17 +81,17 @@ const Dashboard = () => {
         <div className="dashboard-status-overview">
           <div className="dash-card">
             <h3>Total Posts</h3>
-            <span className="dash-number">10</span>
+            <span className="dash-number">{tasks.length}</span>
           </div>
 
           <div className="dash-card">
             <h3>Your Stories</h3>
-            <span className="dash-number">5</span>
+            <span className="dash-number">{favorites.length}</span>
           </div>
 
           <div className="dash-card">
             <h3>Community Posts</h3>
-            <span className="dash-number">10</span>
+            <span className="dash-number">{tasks.length}</span>
           </div>
         </div>
 
@@ -89,10 +108,8 @@ const Dashboard = () => {
           </div>
 
           <div className="posts-grid">
-            {/* Static post card 1 */}
-
             {tasks.map((task) => (
-              <div className="post-card">
+              <div className="post-card" key={task.id}>
                 <div className="post-image-container">
                   <img
                     src={task.imageurl}
@@ -100,13 +117,22 @@ const Dashboard = () => {
                     className="post-card-image"
                   />
 
+                  <button
+                    className={`favorite-btn ${
+                      favorites.includes(task.id) ? "active" : ""
+                    }`}
+                    onClick={() => toggleFavorite(task.id)}
+                  >
+                    <FaStar size={22} color="#ffffff" />
+                  </button>
+
                   <div className="post-actions">
-                    <button className="action-btn edit-btn" title="Edit Post">
-                      <MdEdit
-                        size={22}
-                        color="#ffffff"
-                        onClick={() => handleEdit(task.id)}
-                      />
+                    <button
+                      className="action-btn edit-btn"
+                      title="Edit Post"
+                      onClick={() => handleEdit(task.id)}
+                    >
+                      <MdEdit size={22} color="#ffffff" />
                     </button>
 
                     <button
@@ -122,7 +148,7 @@ const Dashboard = () => {
                 <div className="post-card-content">
                   <div className="post-meta">
                     <span className="post-author">By Admin</span>
-                    <span className="post-dete">Recent</span>
+                    <span className="post-date">Recent</span>
                   </div>
 
                   <h3 className="post-card-title">{task.title}</h3>
