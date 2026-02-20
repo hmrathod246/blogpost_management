@@ -37,17 +37,14 @@ const Favorites = () => {
   };
 
   const clearAllFavorites = () => {
-    if(window.confirm("clear all your saved posts")){
-     localStorage.removeItem("favorites");
-    setFavorites([]);
-    toast.info("All favorites cleared");
+    if (window.confirm("clear all your saved posts")) {
+      localStorage.removeItem("favorites");
+      setFavorites([]);
+      toast.info("All favorites cleared");
     }
-    
   };
 
-  const favoritePosts = tasks.filter((task) =>
-    favorites.includes(task.id)
-  );
+  const favoritePosts = tasks.filter((task) => favorites.includes(task.id));
 
   return (
     <div className="favorites-page-container">
@@ -70,6 +67,12 @@ const Favorites = () => {
             <FaRegStar className="empty-icon" />
             <h3>Your list is empty</h3>
             <p>Discover interstion posts</p>
+            <button
+              className="browser-btn"
+              onClick={() => navigate("/dashboard")}
+            >
+              Explore Stories
+            </button>
           </div>
         ) : (
           <div className="favorites-grid">
